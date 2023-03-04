@@ -1,0 +1,189 @@
+/*Backgroung image  */
+body {
+  background-image: 
+  url("https://images5.alphacoders.com/116/1163213.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+}
+html {
+  height: 100%;
+  width: 100%;
+}
+
+/*Search bar properties  */
+.box{
+    width: 50%;
+    text-align:center;
+    margin-top: 100px;
+    margin-right: 25%;
+    margin-left: 25%;
+}
+
+#search {
+    margin: 0 auto;
+    display: block;
+}
+
+/* Heading 1 */
+
+.heading {
+  font-family: 'Tilt Prism', cursive;
+  font-size: 100px;
+  color: #FFFFFF;
+  text-align: center;
+  margin-top: 50px;
+}
+/* Sub-heading */
+.heading2 {
+  font-family: 'Satisfy', cursive;
+  font-size: 25px;
+  color: #FFFFFF;
+  text-align: center;
+}
+/* Mars icon */
+body{
+  text-align:center;
+  padding:3rem;
+}
+
+.rotate{
+   width:80px;
+   height:80px;
+   animation: rotation infinite 10s linear;
+}
+
+@keyframes rotation{
+  from{
+    transform:rotate(0deg);
+  }
+  
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+/* Timeline */
+.text-color {
+  color: #FFFF00;
+}
+
+* {
+    box-sizing: border-box;
+  }
+#topBar{
+    text-align: center;
+    padding: 30px;
+}
+#aftTop{
+    text-align: center;
+    padding: 15px;
+}
+.responsive {
+  width: 50%;
+  height: auto;
+}
+#about-para {
+    margin-bottom: 0px;
+    padding: 15px 30px 30px 30px;
+    font-size: larger;
+}
+#timeline {
+    padding: 15px 0px 0px 0px;
+    text-align: center;
+}
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: white;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+  }
+  .cont {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+  }
+  .cont::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -17px;
+    background-color: white;
+    border: 4px solid #63D1CA;
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+  }
+  .left {
+    left: 0;
+  }
+  .right {
+    left: 50%;
+  }
+  .left::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 22px;
+    width: 0;
+    z-index: 1;
+    right: 30px;
+    border: medium solid #9C2E35;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent #9C2E35;
+  }
+  .right::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 22px;
+    width: 0;
+    z-index: 1;
+    left: 30px;
+    border: medium solid #9C2E35;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #9C2E35 transparent transparent;
+  }
+  .right::after {
+    left: -16px;
+  }
+  .content {
+    padding: 20px 30px;
+    background-color: #9C2E35;
+    position: relative;
+    border-radius: 6px;
+  }
+  @media screen and (max-width: 600px) {
+    /* Place the timelime to the left */
+      .timeline::after {
+        left: 31px;
+      }
+      .cont {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+      .cont::before {
+        left: 60px;
+        border: medium solid #9C2E35;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent #9C2E35 transparent transparent;
+      }
+      .left::after, .right::after {
+        left: 15px;
+      }
+      .right {
+        left: 0%;
+      }
+    }
