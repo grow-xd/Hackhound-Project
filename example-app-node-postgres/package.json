@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "child-process": "latest",
+    "pg": "latest",
+    "pg-connection-string": "latest",
+    "prompt": "latest",
+    "twilio": "^4.8.0",
+    "uuid": "latest"
+  }
+}
