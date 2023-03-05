@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@mysql/xdevapi": "file:mysql-connector-nodejs-8.0.32.tar.gz",
+    "mysql": "^2.18.1",
+    "requirejs": "^2.3.6"
+  }
+}
