@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Restaurant Menu</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/4.0.0/material-components-web.min.css"
+        integrity="sha512-ULyOty7V9H46tL5YRuY5OZl5toVzQfZuIA/wtk3qyfjPJy/h9XOYbL81Y2QZrHchcVxKYpucrxzSCVbg0G9C9w=="
+        crossorigin="anonymous" />
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        #menu-container {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+        }
+
+        #menu-options {
+            flex: 1;
+            background-color: #b15252;
+            padding: 20px;
+        }
+
+        #menu-options h2 {
+            margin-bottom: 10px;
+        }
+
+        .menu-option {
+            display: block;
+            margin-bottom: 10px;
+            padding: 10px 20px;
+            background-color: #ddd;
+            color: #333;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-option:hover {
+            background-color: #ccc;
+        }
+
+        #options-container {
+            flex: 1;
+            background-color: #fa7268;
+            padding: 20px;
+        }
+
+        #details-container {
+            flex: 1;
+            background-color: #b0265f;
+            padding: 20px;
+        }
+
+        .option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            color: #333;
+            font-size: 1.2rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .option-details {
+            flex: 1;
+        }
+
+        .option-price {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        .total-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 16px;
+            background-color: #fff;
+            box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        .total-text {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        #total-price {
+            margin-left: 16px;
+        }
+
+        .mdc-button {
+            background-color: #007aff;
+            color: #fff;
+        }
+
+        .mdc-button:hover {
+            background-color: #0069d9;
+        }
+
+        .mdc-button:active {
+            background-color: #0053a0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="menu-container">
+        <div id="menu-options">
+            <h2>Menu</h2>
+            <div class="menu-option" onclick="showOptions('pizza')">Pizza</div>
+            <div class="menu-option" onclick="showOptions('burger')">Burger</div>
+            <div class="menu-option" onclick="showOptions('taco')">Taco</div>
+        </div>
+        <div id="options-container"></div>
+        <div id="details-container">
+            <h2>Custom Order</h2>
+            <p>Please describe your custom order:</p>
+            <textarea id="custom-order-input" rows="4" cols="50"></textarea>
+            <button onclick="submitCustomOrder()">Submit</button>
+        </div>
+    </div>
+    <!-- HTML code for the total button -->
+    <div class="total-container">
+        <div class="total-text">
+            <span>Total:</span>
+            <span id="total-price">$0.00</span>
+        </div>
+        <a href="payment.html">
+            <button class="mdc-button mdc-button--raised" id="checkout-button">
+                Checkout
+            </button>
+        </a>
+    </div>
+    <script>
+        function getOptionsForDish(dish) {
+            const options = {
+                pizza: [
+                    { name: 'Pepperoni', description: 'Pepperoni pizza', price: '$10.99' },
+                    { name: 'Mushroom', description: 'Mushroom pizza', price: '$9.99' },
+                    { name: 'Sausage', description: 'Sausage pizza', price: '$11.99' },
+                    { name: 'Veggie', description: 'Veggie pizza', price: '$8.99' }
+                ],
+                burger: [
+                    { name: 'Cheeseburger', description: 'Cheeseburger', price: '$6.99' },
+                    { name: 'Veggie Burger', description: 'Veggie burger', price: '$5.99' },
+                    { name: 'Turkey Burger', description: 'Turkey burger', price: '$7.99' },
+                    { name: 'Bacon Burger', description: 'Bacon burger', price: '$8.99' }
+                ],
+                taco: [
+                    { name: 'Beef', description: 'Beef taco', price: '$2.99' },
+                    { name: 'Chicken', description: 'Chicken taco', price: '$3.49' },
+                    { name: 'Fish', description: 'Fish taco', price: '$3.99' },
+                    { name: 'Veggie', description: 'Veggie taco', price: '$2.99' }
+                ]
+            };
+
+            if (dish in options) {
+                const optionsHTML = options[dish].map(option => `
+        <div class="option">
+          <div class="option-details">
+            <h3>${option.name}</h3>
+            <p>${option.description}</p>
+          </div>
+          <div class="option-price">
+            <p>${option.price}</p>
+          </div>
+        </div>
+      `).join('');
+
+                return optionsHTML;
+            }
+
+            return '';
+        }
+
+        function showOptions(dish) {
+            const optionsContainer = document.getElementById('options-container');
+            const optionsHTML = getOptionsForDish(dish);
+            optionsContainer.innerHTML = optionsHTML;
+            const detailsContainer = document.getElementById('details-container');
+            detailsContainer.innerHTML = '';
+        }
+
+        function showDetails(option) {
+            const detailsContainer = document.getElementById('details-container');
+            const detailsHTML = `
+      <h2>${option}</h2>
+      <p>Description of ${option}</p>
+    `;
+            detailsContainer.innerHTML = detailsHTML;
+        }
+        // get elements
+        const steps = document.querySelectorAll(".step");
+        const prevBtn = document.getElementById("prev-btn");
+        const nextBtn = document.getElementById("next-btn");
+        const form = document.getElementById("form");
+        const submitBtn = document.getElementById("submit-btn");
+        const progress = document.getElementById("progress");
+        const customOrder = document.getElementById("custom-order");
+
+        // current step
+        let currentStep = 0;
+
+        // next button click event
+        nextBtn.addEventListener("click", () => {
+            // validation check
+            if (currentStep === 0) {
+                const input = document.querySelector('input[name="product"]:checked');
+                if (!input) {
+                    alert("Please select a product.");
+                    return;
+                }
+            } else if (currentStep === 1) {
+                const checkboxes = document.querySelectorAll('input[name="size"]:checked');
+                if (checkboxes.length === 0) {
+                    alert("Please select at least one size.");
+                    return;
+                }
+            }
+
+            // show next step
+            steps[currentStep].classList.remove("active");
+            currentStep++;
+            steps[currentStep].classList.add("active");
+
+            // update progress bar
+            progress.style.width = ((currentStep + 1) / steps.length) * 100 + "%";
+
+            // show/hide buttons
+            if (currentStep === steps.length - 1) {
+                nextBtn.style.display = "none";
+                submitBtn.style.display = "inline-block";
+            } else {
+                prevBtn.style.display = "inline-block";
+            }
+        });
+
+        // previous button click event
+        prevBtn.addEventListener("click", () => {
+            // show previous step
+            steps[currentStep].classList.remove("active");
+            currentStep--;
+            steps[currentStep].classList.add("active");
+
+            // update progress bar
+            progress.style.width = ((currentStep + 1) / steps.length) * 100 + "%";
+
+            // show/hide buttons
+            if (currentStep === 0) {
+                prevBtn.style.display = "none";
+            } else {
+                nextBtn.style.display = "inline-block";
+                submitBtn.style.display = "none";
+            }
+        });
+
+        // submit button click event
+        submitBtn.addEventListener("click", () => {
+            // get selected product
+            const product = document.querySelector('input[name="product"]:checked').value;
+
+            // get selected sizes
+            const checkboxes = document.querySelectorAll('input[name="size"]:checked');
+            const sizes = [];
+            checkboxes.forEach((checkbox) => {
+                sizes.push(checkbox.value);
+            });
+
+            // get custom order
+            const customOrderValue = customOrder.value;
+
+            // submit form data
+            const formData = { product, sizes, customOrder: customOrderValue };
+            console.log(formData);
+        });
+
+        // set initial progress bar width
+        progress.style.width = ((currentStep + 1) / steps.length) * 100 + "%";
+
+        // show/hide buttons
+        if (currentStep === 0) {
+            prevBtn.style.display = "none";
+        }
+        if (currentStep === steps.length - 1) {
+            nextBtn.style.display = "none";
+            submitBtn.style.display = "inline-block";
+        }
+
+        // JavaScript code to update the total when dish option is pressed
+        // Select the total price element
+        const totalPriceElement = document.querySelector("#total-price");
+
+        // Calculate the total price and update the UI
+        function updateTotalPrice() {
+            let totalPrice = 0;
+            // Loop through all the dish options and add up their prices
+            dishOptions.forEach((option) => {
+                if (option.checked) {
+                    totalPrice += parseFloat(option.dataset.price);
+                }
+            });
+            // Loop through all the custom options and add up their prices
+            customOptions.forEach((option) => {
+                if (option.checked) {
+                    totalPrice += parseFloat(option.dataset.price);
+                }
+            });
+            // Update the UI with the total price
+            totalPriceElement.textContent = "$" + totalPrice.toFixed(2);
+        }
+
+        // Listen for changes to the dish options
+        dishOptions.forEach((option) => {
+            option.addEventListener("change", updateTotalPrice);
+        });
+
+        // Listen for changes to the custom options
+        customOptions.forEach((option) => {
+            option.addEventListener("change", updateTotalPrice);
+        });
+
+        // Select the checkout button
+        const checkoutButton = document.querySelector("#checkout-button");
+
+        // Add a click listener to the checkout button
+        checkoutButton.addEventListener("click", () => {
+            // Redirect to the checkout page or handle the checkout process here
+            console.log("Checkout button clicked!");
+        });
+
+
+    </script>
+
+
+</body>
+
+</html>
