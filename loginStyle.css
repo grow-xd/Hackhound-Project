@@ -1,0 +1,43 @@
+.divider:after,
+.divider:before {
+content: "";
+flex: 1;
+height: 1px;
+background: #eee;
+}
+.h-custom {
+height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+.h-custom {
+height: 100%;
+}
+}
+
+.white{
+  color: #FFFFFF;
+}
+
+.alignwithCenter {
+  text-align: center;
+}
+
+.marginLeft {
+  margin-left: 50px;
+}
+
+body {
+  background-image: 
+  url("layered-waves-haikei.svg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+}
+
+.colr {
+  color: #C62368;
+}
+
+.subColr {
+  color: #FA7268;
+}
